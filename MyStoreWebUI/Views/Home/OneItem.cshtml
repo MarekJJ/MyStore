@@ -6,7 +6,7 @@
 }
 
 <<div class="col-lg-9 ">
-    <div class="ColorCSS" style="height:900px; font-family:Arial !important;">
+    <div class="ColorCSS" style="min-height:900px; font-family:Arial !important;">
         
         
             <h3>
@@ -16,11 +16,18 @@
 
           @if (Model.ImageData != null)
           {
-            <div class="text-center" >
+            <div class="text-center " >
                 <img class="img-thumbnail"  style="min-height:400px"
                      src="@Url.Action("GetImage", "Home", new { Model.NumberID })" /> 
-            </div>
+       </div>
           }
+        <div style="font-size:small;">
+            <label>Autor</label>
+            @Model.AutorName<br />
+            <label>Cena</label>
+            @Model.Price
+        </div>
+
         <div style="font-size:large;">
             @Model.Description
         </div>
