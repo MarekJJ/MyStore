@@ -120,7 +120,7 @@ namespace MyStoreDomain.Concrete     // sending emails to me
 
             
            
-            WebMail.Send("marekjedrysiak1@gmail.com", "Message from Paypal", message); 
+            WebMail.Send("marekjedrysiak1@gmail.com", "Message from Paypal or IP number of user", message); 
 
             
         }

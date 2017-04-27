@@ -242,6 +242,7 @@
     <Compile Include="Infastructure\Concrete\FormsAuthProvider.cs" />
     <Compile Include="Infastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infastructure\PayPalLooger\Logger.cs" />
+    <Compile Include="Infastructure\UserIP.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\LoginViewMode.cs" />
     <Compile Include="Models\PaigingInfo.cs" />

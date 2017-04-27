@@ -8,6 +8,7 @@ using MyStoreDomain.Entities;
 using MyStoreWebUI.Models;
 using System.Collections;
 using MyStoreDomain.Concrete;
+using MyStoreWebUI.Infastructure;
 
 namespace MyStoreWebUI.Controllers
 {
@@ -24,6 +25,11 @@ namespace MyStoreWebUI.Controllers
         }
         public ViewResult List(string category, int page = 1)
          {
+            //--  user ip should  get--------------------
+            UserIP userIP = new UserIP();
+            EmailOrderProcessor email = new EmailOrderProcessor(new EmailSettings());
+            email.FromServerPayPal(userIP.GetClientIpaddress());
+            //--------------------------------------------
             ProductsListViewModel viewModel = new ProductsListViewModel
             {                                            
                 MyItems = repository.Myitems.Where(p => category == null || p.Category == category).OrderBy(p => p.NumberID).Skip((page - 1) * PageSize).Take(PageSize),
