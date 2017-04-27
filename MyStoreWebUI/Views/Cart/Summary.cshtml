@@ -1,0 +1,21 @@
+﻿
+<!--Information about quantity of products-->
+
+@model MyStoreDomain.Entities.Cart
+
+<div class="navbar-right hidden-xs"> 
+    @Html.ActionLink("Zamów", "Index", "Cart", new { returnUrl = Request.Url.PathAndQuery }, new { @class = "btn btn-default navbar-btn btn-danger" })
+</div>
+
+<div class="navbar-right visible-xs"> 
+    <a href=@Url.Action("Index", "Cart", new { returnUrl = Request.Url.PathAndQuery })@*przesyla adres tej stony zeby bylo mozna wrocic tutaj*@
+       class="btn btn-default navbar-btn">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+    </a>
+</div>
+
+<div class="navbar-text navbar-right">
+    <b class="hidden-xs">Twój koszyk:</b>  
+    @Model.Lines.Sum(x => x.Quantity) sztuk,
+    @Model.ComputeTotalValue().ToString("c")
+</div>

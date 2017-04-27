@@ -1,0 +1,31 @@
+﻿<!--success paiment-->
+@model MyStoreDomain.Entities.Cart
+@{
+    ViewBag.Title = "SuccessView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="text-center">
+        <h2 class="text-center">Dziękuję za zakup ksiażki</h2>
+        <h4> Dane zakupionych produktów:</h4>
+
+        @foreach (var p in Model.Lines)
+        {
+
+            <leabel>Autor</leabel>
+            <h6>@p.Product.AutorName</h6>
+            <leabel>Tytuł</leabel>
+            <p>@p.Product.Name1</p>
+            <leabel>Kategoria</leabel>
+            <p>@p.Product.Category</p>
+              <leabel>Cena</leabel>
+            <p>  @p.Product.Price</p>
+            <br />
+        }
+
+        @Model.Lines.Sum(x => x.Quantity) sztuk,
+        @Model.ComputeTotalValue().ToString("c") suma.  @*to co zwróci funkcaj to sie na stronie wyswietli*@
+       @Html.Action("Clear", "Cart")
+      
+    </div>

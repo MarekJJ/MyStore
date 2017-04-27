@@ -1,0 +1,93 @@
+﻿ 
+/*bootstrap wielkosci
+  .col-xs-* < 768px phones
+  .col-sm-* <= 768px tablets
+  .col-md-* >= 992px laptop/desktop
+  .col-lg-* >= 1200px desktop*/
+
+body {
+    background-color:black;
+}
+
+
+
+.ColorCSS {
+    margin: 6px;
+    background-color: rgba(0, 0, 0, 0.6);
+    min-height: 300px;
+    border-top-right-radius: 20px 20px;
+    border-bottom-left-radius: 20px 20px;
+    border-top-left-radius: 20px 20px;
+    border-bottom-right-radius: 20px 20px;
+    text-align: center;
+    font-size: x-large;
+    color: black;
+}
+
+
+    .ColorCSS:hover {
+        box-shadow: 5px 5px 5px 5px #000000;
+        font-family: 'Allura', sans-serif;
+        background-color: rgba(225, 225, 225, 0.9);
+        text-align: center;
+        font-size:24px;
+    }
+
+.ColorCSSStatic {
+    box-shadow: 5px 5px 5px 5px #000000;
+    background-color: rgba(225, 225, 225, 0.5);
+    border-top-right-radius: 20px 20px;
+    border-bottom-left-radius: 20px 20px;
+    border-top-left-radius: 20px 20px;
+    border-bottom-right-radius: 20px 20px;
+    text-align: center;
+    font-size: xx-large;
+}
+
+
+.buttons :hover {
+    font-family: 'Allura', sans-serif;
+}
+
+.SizeCSS {
+    max-height: 100px;
+    max-width: 100px;
+}
+
+@media only screen and (min-width: 600px) { /*responsywnosc kontrolek w CV i contact*/ 
+
+    .write {
+       
+        width: 600px;
+        /*margin-left: 50px;*/
+        border-top-right-radius: 80px 80px;
+        border-bottom-left-radius: 80px 80px;
+        border-top-left-radius: 80px 80px;
+        border-bottom-right-radius: 80px 80px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    .write {
+        width: 300px;
+        /*margin-left: 50px;*/
+        border-top-right-radius: 80px 80px;
+        border-bottom-left-radius: 80px 80px;
+        border-top-left-radius: 80px 80px;
+        border-bottom-right-radius: 80px 80px;
+    }
+}
+    .write1 {
+        width: 600px;
+        border-top-right-radius: 10px 10px;
+        border-bottom-left-radius: 10px 10px;
+        border-top-left-radius: 10px 10px;
+        border-bottom-right-radius: 10px 10px;
+    }
+
+    .width { /*top jest od poziomego menu o mnie*/
+        width: 140px !important; /*!important zeby pobic bootstrapa*/
+        margin-top: 10px !important;
+        margin-left: 5px !important;
+    }

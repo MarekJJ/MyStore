@@ -1,0 +1,31 @@
+﻿<!--about me menu-->
+@{
+    Layout = null;
+}
+
+<div class="navbar navbar-inverse">
+
+    <a class="navbar-brand">
+        <span class="hidden-xs">Portfolio/Sklep</span> 
+    </a>
+ 
+        <ul class=" nav navbar-nav">
+            <li><a @Html.ActionLink("O Mnie", "AboutME", "AboutMe", new { what = "AboutMe" }, new { @class = "btn btn-block btn-default btn-lg  width " })></a></li>
+            <li><a @Html.ActionLink("Co oferuję", "WatIOffer", "AboutMe", new { what = "WhatOffer" }, new { @class = "btn btn-block btn-default btn-lg width" })></a></li>
+            <li><a @Html.ActionLink("Kontak", "Contact", "AboutMe", new { what = "Contact" }, new { @class = "btn btn-block btn-default btn-lg width" })></a></li>
+            <li><a @Html.ActionLink("CV", "CV", "AboutMe", new { what = "CV" }, new { @class = "btn btn-block btn-default btn-lg width" })></a></li>
+            <li><a @Html.ActionLink("Kod źródłowy", "Code", "AboutMe", new { what = "Code" }, new { @class = "btn btn-block btn-default btn-lg width" })></a></li>
+        </ul>
+    
+    @using (@Html.BeginForm("Search", "Home"))
+    {
+        <div class="pull-right" style=" margin-top: 10px">
+            @Html.TextBox("search")
+
+            <input type="submit" class="btn " value="Wyszukaj" />
+        </div>
+    }
+        @Html.Action("Summary", "Cart")
+      
+
+    </div>

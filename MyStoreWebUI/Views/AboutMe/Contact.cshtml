@@ -1,0 +1,38 @@
+﻿@model MyStoreDomain.Entities.MessageToMe
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm()) { 
+<div class="col-lg-9 ColorCSSStatic" style="height:850px; font-size:large;">
+    <div>
+        @Html.ValidationSummary() @*from this point metadata makeig jop*@
+        <h3> Proszę napisz do mnie</h3>
+        <div style="margin-top:100px;">
+            <leabel class="leabels">Imię*</leabel><br />
+            @Html.TextBoxFor(x => x.Name , null, new { @class = "write" })<br />
+
+            <leabel class="leabels"> Nazwisko* </leabel><br />
+            @Html.TextBoxFor(x => x.SurName, null, new { @class = "write" })<br />
+
+            <leabel class="leabels">Email* </leabel><br />
+            @Html.TextBoxFor(x => x.Email, null, new { @class = "write" })<br />
+
+            <leabel class="leabels">Firma </leabel><br />
+            @Html.TextBoxFor(x => x.Company, null, new { @class = "write" })<br />
+
+            <leabel class="leabels">Lokalizacja* </leabel><br />
+            @Html.TextBoxFor(x => x.Localization, null, new { @class = "write" })<br />
+
+            <leabel class="leabels">Napisz do mnie* </leabel><br />
+            @Html.TextArea("WriteToMe", null, new { @class = "write1", @cols = "40", @rows = "10" })<br />
+
+            <input id="zatwierdz" type="submit" value="Wyslij">
+
+        </div>
+    </div>
+</div>
+
+}
+

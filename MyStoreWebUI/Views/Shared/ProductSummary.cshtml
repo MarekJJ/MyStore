@@ -1,0 +1,24 @@
+﻿@*TO JEST WIDOK PARTIAL DLATEGO JEST W SHARED I JEST WYWOLYWANY PRZEZ @Html.Partial("ProductSummary", p) z widoku list *@
+@model MyStoreDomain.Entities.MyItem
+
+
+
+<span class="lead" @*style="font-size:x-large"*@>@Model.Name1</span>
+
+@if (Model.ImageData != null)
+{
+    <div class="text-center" style="margin-right: 10px">
+        <img @*class="img-thumbnail"*@ @*style{ height:20px;}*@ @*width="150" @*height="10"*@ src="@Url.Action("GetImage", "Home", new { Model.NumberID })" />
+    </div>
+}
+
+@using (Html.BeginForm("OneItem", "Home"))
+{
+    @Html.Hidden("numberID", Model.NumberID) // PAMIETAJ ZE W  @Html.Hidden NAJPIERW MUSISZ PODAC NAZWE PARANERU
+    //position:absolute pozwala z pomoca left right bottom i top okreslic pozyzje elementy wewnatrz wiekszego lementu, left right bottom i top to sa jedyne funkcje ktore mozesz uzyc w absolute
+
+        <div  style="position:absolute; bottom:15px;  right:35%; left:35%;">
+     <input type="submit" class="btn btn-primary" value="Obejrzyj" />
+        </div>
+
+}

@@ -1,0 +1,12 @@
+﻿@model MyStoreDomain.Entities.MyItem
+@{
+    ViewBag.Title = "delete";
+}
+<div class="text-center">
+    <h2> Przepraszam ale nie ma więcej tego rodzaju produktów - @Model.Name1 </h2>
+    <h3>Ilość produktów na sprzedaż - @Model.amount sztuk</h3>
+    <h4> Produkt został usunięty. </h4>
+</div>
+<div class ="text-center">
+    @Html.ActionLink("Powrót do koszyka", "Index",null, new { @class = "btn btn-primary" })
+</div>

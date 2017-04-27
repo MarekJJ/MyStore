@@ -1,0 +1,17 @@
+﻿@model IEnumerable<MyStoreDomain.Entities.MyItem>
+<!--printing searched items-->
+
+
+
+<div class="col-lg-3 col-md-6 col-sm-9  ">
+    <div class="ColorCSS ">
+       @foreach (var p in @Model)
+       {
+        <div class="col-lg-3 col-md-6 col-sm-9  ">
+            <div class="ColorCSS ">
+                @Html.Partial("ProductSummary", p) 
+            </div>
+        </div>
+       }
+    </div>
+</div>

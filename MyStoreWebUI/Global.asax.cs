@@ -1,0 +1,24 @@
+﻿//TUTAJ  LADUJA SIE KALASY O ZASIEGU GLOBALNYM, URUCHAMIAJA SIE PRZY STARCIE PROGRAMU 
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+using MyStoreDomain.Entities;   // zasieng do modelu 
+using MyStoreWebUI.Infastructure.Binders; // zasieg do bindera (wezla)
+
+namespace MyStoreWebUI
+{
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+            RouteConfig.RegisterRoutes(RouteTable.Routes);// uruchamia routing przy starcie 
+            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
+        }                             // za każdym razem jak cos sie zapisze w liscie w kalsie Cart to kalsa cart zostanie dodan do sesji 
+                                      // za kazdym razem kiedy bedzie gdzies w rozwiazaniu tworzony obiekt cart to zostanie on zaladowany aktualna zesja 
+    }                                
+}
