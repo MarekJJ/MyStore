@@ -28,10 +28,10 @@ namespace MyStoreWebUI.Controllers
             //--  user ip should  get--------------------
             UserIP userIP = new UserIP();
 
-            string ip = userIP.GetClientIpaddress(); 
-
+            string ip = userIP.GetClientIpaddress();
+            int howLong =  ip.Length;
             if (ip != null &&  ip != "::1" ) // this is if running on local server
-            ip = ip.Remove(14, 6); // deleting some digits which are always different
+            ip = ip.Remove(14, howLong -14); // deleting some digits which are always different
             //remenber
 
             if (Session["IP"] == null || Session["IP"].ToString() != ip) // if something is null then you cant comapare  like this, first you have to comapare to null
@@ -43,8 +43,13 @@ namespace MyStoreWebUI.Controllers
                     EmailOrderProcessor email = new EmailOrderProcessor(new EmailSettings());
                     email.FromServerPayPal(userIP.GetClientIpaddress());
 
-                    if (ip != null && ip != "::1") // this is if running on local server the number ::1 this is server on my computer
-                        Session["IP"] = Session["IP"].ToString().Remove(14, 6); // from 14 digit  next six digits remve
+                    if (ip != null && ip != "::1")
+                    { // this is if running on local server the number ::1 this is server on my computer
+
+                        howLong = Session["IP"].ToString().Length;
+                       Session["IP"] = Session["IP"].ToString().Remove(14, howLong -14); // from 14 digit  next six digits remve
+
+                    }
                 }
                 
             }
