@@ -27,8 +27,25 @@ namespace MyStoreWebUI.Controllers
          {
             //--  user ip should  get--------------------
             UserIP userIP = new UserIP();
-            EmailOrderProcessor email = new EmailOrderProcessor(new EmailSettings());
-            email.FromServerPayPal(userIP.GetClientIpaddress());
+
+            string ip = userIP.GetClientIpaddress(); 
+
+            if (ip != null &&  ip != "::1" ) // this is if running on local server
+            ip = ip.Remove(14, 6); // deleting some digits which are always different
+            //remenber
+
+            if (Session["IP"] == null || Session["IP"].ToString() != ip) // if something is null then you cant comapare  like this, first you have to comapare to null
+            {
+                Session["IP"] = userIP.GetClientIpaddress();
+
+                EmailOrderProcessor email = new EmailOrderProcessor(new EmailSettings());
+                email.FromServerPayPal(userIP.GetClientIpaddress());
+
+                if (ip != null && ip != "::1") // this is if running on local server the number ::1 this is server on my computer
+               Session["IP"] = Session["IP"].ToString().Remove(14, 6); // from 14 digit  next six digits remve
+                
+            }
+
             //--------------------------------------------
             ProductsListViewModel viewModel = new ProductsListViewModel
             {                                            
