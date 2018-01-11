@@ -1,14 +1,9 @@
-﻿using MyStoreDomain.Concrete;
+﻿using System.Web.Mvc;
+using MyStoreDomain.Concrete;
 using MyStoreDomain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime;
-using System.Web;
-using System.Web.Mvc;
 
-namespace MyStoreWebUI.Controllers 
-{
+namespace MyStoreWebUI.Controllers
+{   //bkbkbkbkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
     public class AboutMeController : Controller
     {
         // GET: AboutMe
@@ -27,7 +22,7 @@ namespace MyStoreWebUI.Controllers
 
         }
         [HttpPost]
-        public ActionResult Contact(MessageToMe message  )
+        public ActionResult Contact(MessageToMe message)
         {
             if (ModelState.IsValid)
             {

@@ -6,7 +6,7 @@ using MyStoreDomain.Entities;
 
 namespace MyStoreWebUI.Controllers
 {
-    [Authorize] // lblblblblbllblblblblbbl
+    [Authorize]
     public class AdminController : Controller
     {
         private IitemsRepository repository;
