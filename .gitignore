@@ -1,1 +1,3 @@
-/vs
+.vs
+.gitignore
+MyStoreDomain/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
