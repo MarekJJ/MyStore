@@ -1,12 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 using MyStoreDomain.Abstract;
 using MyStoreDomain.Entities;
-using System.Linq;
-using System.Web;
 
 namespace MyStoreWebUI.Controllers
 {
-    [Authorize] // you need to be login
+    [Authorize] // lblblblblbllblblblblbbl
     public class AdminController : Controller
     {
         private IitemsRepository repository;
@@ -14,7 +14,7 @@ namespace MyStoreWebUI.Controllers
         {
             repository = repo;
         }
-        public ViewResult Index()  
+        public ViewResult Index()
         {
             return View(repository.Myitems);
         }
@@ -28,7 +28,7 @@ namespace MyStoreWebUI.Controllers
         [HttpPost]
         public ActionResult Edit(MyItem product, HttpPostedFileBase image = null)
         {
-            if (ModelState.IsValid) // if everything  is filled  
+            if (ModelState.IsValid) // if everything  is filled
             {
                 if (image != null) //  jst image
                 {
@@ -43,23 +43,23 @@ namespace MyStoreWebUI.Controllers
             }
             else
             {
-                // if are problems to send 
+                // if are problems to send
                 return View(product);
             }
         }
-        
+
         public ViewResult Create()
         {
-            return View("Edit", new MyItem());// you can send empty 
+            return View("Edit", new MyItem());// you can send empty
         }
 
         [HttpPost]
-        public ActionResult Delete(int productId) 
+        public ActionResult Delete(int productId)
         {
             MyItem deletedProduct = repository.DeleteProduct(productId);
             if (deletedProduct != null)
             {
-                TempData["message"] = string.Format("Usunięto {0}", deletedProduct.Name1); 
+                TempData["message"] = string.Format("Usunięto {0}", deletedProduct.Name1);
             }
             return RedirectToAction("Index");
         }
