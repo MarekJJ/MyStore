@@ -3,7 +3,7 @@ using MyStoreDomain.Concrete;
 using MyStoreDomain.Entities;
 
 namespace MyStoreWebUI.Controllers
-{   //bkbkbkbkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+{   //fdsafdsafasfakkkkkk
     public class AboutMeController : Controller
     {
         // GET: AboutMe
