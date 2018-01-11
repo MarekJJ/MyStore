@@ -250,9 +250,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -287,6 +284,7 @@
     <Content Include="Views\PayPal\SuccessView.cshtml" />
     <Content Include="Views\AboutMe\Dziekuje.cshtml" />
     <Content Include="Views\Cart\Delete.cshtml" />
+    <Content Include="Views\web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

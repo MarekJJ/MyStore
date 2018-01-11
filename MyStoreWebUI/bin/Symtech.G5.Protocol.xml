@@ -1,0 +1,899 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Symtech.G5.Protocol</name>
+    </assembly>
+    <members>
+        <member name="M:Symtech.G5.Protocol.TypeExtensions.GetMethodExt(System.Type,System.String,System.Boolean,System.Type[])">
+            <summary>
+            Search for a method by name and parameter types.  
+            Unlike GetMethod(), does 'loose' matching on generic
+            parameter types, and searches base interfaces.
+            </summary>
+            <exception cref="T:System.Reflection.AmbiguousMatchException"/>
+        </member>
+        <member name="M:Symtech.G5.Protocol.TypeExtensions.GetMethodExt(System.Type,System.String,System.Reflection.BindingFlags,System.Boolean,System.Type[])">
+            <summary>
+            Search for a method by name, parameter types, and binding flags.  
+            Unlike GetMethod(), does 'loose' matching on generic
+            parameter types, and searches base interfaces.
+            </summary>
+            <exception cref="T:System.Reflection.AmbiguousMatchException"/>
+        </member>
+        <member name="T:Symtech.G5.Protocol.TypeExtensions.T">
+            <summary>
+            Special type used to match any generic parameter type in GetMethodExt().
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.TypeExtensions.IsSimilarType(System.Type,System.Type)">
+            <summary>
+            Determines if the two types are either identical, or are both generic 
+            parameters or generic types with generic parameters in the same
+             locations (generic parameters match any other generic paramter,
+            but NOT concrete types).
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.AckResponse">
+            <summary>
+            Standard payload specifying if a packet was received successfully or not.  Currently decorated
+            using the A command identifier.
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.AckResponse.Success">
+            <summary>
+            Specifies if the packet was handled as per the requirements of the protocol implementation.  True if handled, otherwise false.
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.AckResponse.ErrorCode">
+            <summary>
+            Protocol specific error code
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IgnorePropertyAttribute">
+            <summary>
+            When decorated on a property will be used to indicate that property is not 
+            to be seriliazed as a key value pair on the IPropertySerializable implementation
+            </summary>
+            <seealso cref="T:Symtech.G5.Protocol.V2.IPropertySerializable"/>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.PacketCommandTypeAttribute">
+            <summary>
+            Decorates a <see cref="T:Symtech.G5.Protocol.V2.DataPayload"/> with the command that identifies it in the system
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.PacketCommandTypeAttribute.Command">
+            <summary>
+            Command identifying the packet in the system
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.PacketCommandTypeAttribute.Namespace">
+            <summary>
+            Unique namespace this command is associated with to avoid clashes with other command usages
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeAttribute.#ctor">
+            <summary>
+            Default constructor with namespace defaulted to empty string
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IFieldOutputStream">
+            <summary>
+            Specifies the ability to write a property from a data payload dynamically by providing
+            all the information required on the DataPayloadPropertyInfo class.
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IFieldOutputStream.Write(Symtech.G5.Protocol.V2.DataPayloadPropertyInfo)">
+            <summary>
+            Writes the payload property to the implemented outputstream
+            </summary>
+            <param name="fieldOrder">Property info containing the details of the property to write</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.FieldAttribute">
+            <summary>
+            Specifies an attribute's order in the payload
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.FieldAttribute.Order">
+            <summary>
+            Order the property appears in the payload
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.FieldLengthAttribute">
+            <summary>
+            Provides the ability to specify the length of a field
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.FieldLengthAttribute.Length">
+            <summary>
+            Field length
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IBinaryDataLogService">
+            <summary>
+            Logging implementation for the protocol packet when reading data and problems occur
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IBinaryDataLogService.Log``1(System.String,Symtech.G5.Protocol.V2.IPacket{``0},System.Byte[],System.Exception)">
+            <summary>
+            Logs the data to some implementation
+            </summary>
+            <typeparam name="T">Payload type being logged</typeparam>
+            <param name="imei">Unique device id that the log entry is for</param>
+            <param name="packet">The packet to be written</param>
+            <param name="data">Underlying byte[] used in the packet construction</param>
+            <param name="exception">Exception to log if any</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.PacketStuffFields">
+            <summary>
+            <para>
+            Packet fields that are stuffed in order to maintain their integrity within the packet protocol.  
+            </para>
+            <para>
+            This class will provide the abillity to stuff data accordingy to the protected fields of the 
+            protocol specification.  These fields include:
+            </para>
+            <para>
+            0x24 - $
+            0x2A - *
+            0x5E - ^
+            </para>
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketStuffFields.IsStuffByte(System.Byte)">
+            <summary>
+            Determines if the supplied byte is the byte that is used to delimate a stuffed fields
+            </summary>
+            <param name="data">Value to check if is the stuff byte field</param>
+            <returns>True if the value is the stuff field otherwise false</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketStuffFields.Stuff(System.Byte)">
+            <summary>
+            Stuffs the supplied byte if it is required as a byte array with the first value being the stuff
+            character followed by the stuffed version of that byte value
+            </summary>
+            <param name="data">The value to stuff if required</param>
+            <returns>Stuffed value of the byte data if the supplied value requires stuffing otherwise the data value itself</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketStuffFields.UnStuff(System.Byte[])">
+            <summary>
+            Returns the single byte representation of the data supplied if the data is byte stuffed.  
+            </summary>
+            <param name="data">Data array that will have an unstuffed version returned.  Value should not be null</param>
+            <returns>
+            If the supplied data is null then a new byte() is returned.  If the data is at least 2 in length then the correct byte is returned if the first byte in the array is
+            the stuff character otherwise just the first byte of the array is returned
+            </returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.BinaryPacketStuffer">
+            <summary>
+            Class to provide the ability to stuff byte[] values as indicited by the 
+            protocol specification
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.BinaryPacketStuffer.#ctor(System.Boolean)">
+            <summary>
+            Constructor to allow for ignoring the first and last characters of the data to be stuffed if required
+            </summary>
+            <param name="ignoreStxEtx">If true will ignore the first and last element of the byte[]</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.BinaryPacketStuffer.Stuff(System.Byte[])">
+            <summary>
+            Provides a stuffed version of the data supplied
+            </summary>
+            <param name="unStuffBytes">Data to be stuffed.  If the data is already stuffed it will be stuffed once more.</param>
+            <returns>Stuffed version of the data</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.BinaryPacketStuffer.UnStuff(System.Byte[])">
+            <summary>
+            Provides an unstuffed version of the data supplied.  If the data requires multiple unstuff calls this method will have to be called multiple times.
+            </summary>
+            <param name="stuffedBytes">Data to be un-stuffed</param>
+            <returns>Views each byte one by one and unstuffs it as required.  This method is not recursive so if the unstuffed version itself requires unstuffing it will remain as is</returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IChecksum">
+            <summary>
+            Implements a checksum algorithm used to provide data integrity
+            of the byte data.
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IChecksum.GetCheckSum(System.Byte[])">
+            <summary>
+            Calculates a single byte checksum on the byte array supplied
+            </summary>
+            <param name="data">Data to calculate checksum on</param>
+            <returns>Calculated checksum</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IChecksum.Validate(System.Byte[])">
+            <summary>
+            Validates the data by re-running the implemented checksum algorithem on the supplied
+            data ignoring the first and last 2 characters.
+            </summary>
+            <exception cref="T:Symtech.G5.Protocol.V2.ChecksumException">Thrown if the calculted checksum does not match that supplied</exception>
+            <param name="data">Data to be validated that the checksum in the supplied data matches the calculted checksum</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.Checksum">
+            <summary>
+            Protocol implementation of the checksum algorithm
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IDataInputStream">
+            <summary>
+            Reads values from the protocol stream and returns them in the desired type
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.EndOfStream">
+            <summary>
+            Indicates if the end of stream has been reached and there is no more data to be read
+            </summary>
+            <returns>True if no more data, otherwise false</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadString(System.Int32,System.Boolean)">
+            <summary>
+            Reads the specified number of characters from the input stream in UTF8 Encoding
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if count is less or equal to 0</exception>
+            <param name="count">The number of characters to read.  Must be > 0</param>
+            <param name="stopReadingOnFirstNull">When true returns a string that contains characters upto but not including the first null character</param>
+            <returns>A string with upto {count} characters</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadString(System.Text.Encoding,System.Int32,System.Boolean)">
+            <summary>
+            Reads the specified number of characters from the input stream in specified encoding
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if count is less than 0</exception>
+            <param name="encoding">Encoding to evaluate read byte[] as</param>
+            <param name="count">The number of characters to read.  Must be > 0</param>
+            <param name="stopReadingOnFirstNull">When true returns a string that contains characters upto but not including the first null character</param>
+            <returns>A string with upto {count} characters.  If count is 0 an empty string is returned</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadString(System.Boolean)">
+            <summary>
+            Reads from the input stream evaluating each one as a char until the endo of stream is reached
+            </summary>
+            <param name="stopReadingOnFirstNull">When true returns a string that contains characters upto but not including the first null character</param>
+            <returns>A string value</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadChar">
+            <summary>
+            Reads a 1 byte character from the stream and converts it to an ASCII character
+            </summary>
+            <returns>Read character</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadInt32">
+            <summary>
+            Reads an unsigned integer from the underlying stream
+            </summary>
+            <returns>Unsigned integer</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadSignedInt32">
+            <summary>
+            Reads an Signed integer from the underlying stream
+            </summary>
+            <returns>Signed integer</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadInt16">
+            <summary>
+            Reads an unsigned short from the underlying stream
+            </summary>
+            <returns>Unsigned short</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadSignedInt16">
+            <summary>
+            Reads an signed short from the underlying stream
+            </summary>
+            <returns>Signed short</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadByte">
+            <summary>
+            Reads a single byte from the underlying stream
+            </summary>
+            <returns>Byte read from the stream</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadBytes(System.Int32)">
+            <summary>
+            Reads a number of bytes from the the underlying stream upto count
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">If count is less than 0</exception>
+            <returns>Byte array containing the specified number of bytes</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadFloat">
+            <summary>
+            Reads a float from the underlying stream
+            </summary>
+            <returns>Interpretted float value</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadDouble">
+            <summary>
+            Reads a double from the underlying stream
+            </summary>
+            <returns>Interpretted double value</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataInputStream.ReadBool">
+            <summary>
+            Reads a value from the underlying stream and interprets it as a boolean
+            </summary>
+            <returns>Interpretted boolean value</returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IDataOutputStream">
+            <summary>
+            Writes values to the protocol stream in the desired type and format
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.Char)">
+            <summary>
+            Writes a 1 byte character to the stream
+            </summary>
+            <param name="value">Value to write</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.String,System.Int32)">
+            <summary>
+            Writes upto count amount of characters to the underlying stream interpretting the characters as UTF 8.  At least {length}
+            amount of characters will be written to the stream.  If the supplied value does not contain the necessary amount of
+            characters than the additional characters will be padded with null byte values
+            </summary>
+            <param name="value">Value to write</param>
+            <param name="length">Number of characters from the string to write</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.String,System.Int32,System.Text.Encoding)">
+            <summary>
+            Writes upto count amount of characters to the underlying stream interpretting the characters as the specified encoding.  At least {length}
+            amount of characters will be written to the stream.  If the supplied value does not contain the necessary amount of
+            characters than the additional characters will be padded with null byte values.
+            </summary>
+            <param name="value">Value to write</param>
+            <param name="length">Number of characters from the string to write</param>
+            <param name="encoding">Encoding to convert to the string to bytes</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.Int32)">
+            <summary>
+            Writes a signed integer to the underlying stream
+            </summary>
+            <param name="value">Value to be written</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.UInt32)">
+            <summary>
+            Writes a un-signed integer to the underlying stream
+            </summary>
+            <param name="value">Value to be written</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.UInt16)">
+            <summary>
+            Writes a un-signed short to the underlying stream
+            </summary>
+            <param name="value">Value to be written</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.Int16)">
+            <summary>
+            Writes a signed short to the underlying stream
+            </summary>
+            <param name="value">Value to be written</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.Byte[])">
+            <summary>
+            Writes the supplied byte array to the underlying stream
+            </summary>
+            <param name="value">Value to be written</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.Byte)">
+            <summary>
+            Writes a byte to the underlying stream
+            </summary>
+            <param name="value">Value to be written</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.Double)">
+            <summary>
+            Writes a double to the underlying stream
+            </summary>
+            <param name="value">Value to be written</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IDataOutputStream.Write(System.Boolean)">
+            <summary>
+            Writes a boolean to the underlying stream getting converted to the agreed protocol format
+            </summary>
+            <param name="value">Value to be written</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.DataPayload">
+            <summary>
+            Based class for all payload packets in the Binary protocol specification.  Provides the
+            ability to handle versioning by inherited classes and serialize the properties to a string representation
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.DataPayload.GetBytes">
+            <summary>
+            Serializes the current payload to a byte[] using the current known Version number recorded
+            </summary>
+            <returns>byte[] representing the data in this version of the payload</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.DataPayload.GetVersion">
+            <summary>
+            Returns the current known version of this payload obtained from the Read() method.  If no known verion
+            is available then the RootVersion of the protocol (default 0) is returned.
+            </summary>
+            <returns>Current known version</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.DataPayload.GetVersionedPropertyInfo">
+            <summary>
+            Queries for all properties on this class identified with a FieldAttribute and not Ignored
+            </summary>
+            <returns>List of properties if any</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.DataPayload.GetVersionedPropertyInfo(System.Int32)">
+            <summary>
+            Queries for all properties on this class that fall within the supplied version
+            </summary>
+            <param name="version">Version of the properties to match</param>
+            <returns>List of property info that fall within this version</returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.HeaderPayload">
+            <summary>
+            The header portion of a packet
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IPacket">
+            <summary>
+            Represents a packet within the protocol system using deliminators
+            to identify the start and end of the packet data.
+            <para>
+            Uses a one byte checksum to help with data integrity
+            </para>
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.IPacket.Stx">
+            <summary>
+            Indicates the start of new packet data
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.IPacket.Etx">
+            <summary>
+            Indicates the end of a set of packet data
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.IPacket.CheckSum">
+            <summary>
+            Checksum of this packet
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.IPacket.Header">
+            <summary>
+            Header portion of the packet
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.IPacket.Data">
+            <summary>
+            Data portion of the packet
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IPacket.GetCommand">
+            <summary>
+            Retrieves the command this packet is associatd with.  If not data has yet been read then
+            this method will return Null
+            </summary>
+            <returns>Null if no packet data is available or the command is not known otherwise the command registered against an empty namespace</returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IPacket`1">
+            <summary>
+            Packet with a specific DataPayload type
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.IPacket`1.Data">
+            <summary>
+            Data for a specific data payload type
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.Packet`1">
+            <summary>
+            Class implementation of <see cref="T:Symtech.G5.Protocol.V2.IPacket"/> with default reading and writing of packets using
+            decorated attributes and internal reflection to try and build data payloads
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IPacketBuilderFactory">
+            <summary>
+            Factory class for creating packets
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketBuilder.CreateEmptyPayload``1(System.Char,System.Int32,System.Int32,System.DateTime)">
+            <summary>
+            Creates a packet with the default version being set to 0x03 which is the first protocol identifier where the Flags
+            attribute was introduced.  If you need to handle packet versions earlier than this then you will need to change the version
+            after creation of the payload
+            </summary>
+            <typeparam name="T">Payload to instantiate into the packet</typeparam>
+            <param name="command">Packet commant to create.  Should be related to the T parameter type</param>
+            <param name="packetId">The packet id</param>
+            <param name="parentPacketId">The parent packet id this packet is related to</param>
+            <param name="dateRecorded">The date recorded of the packet</param>
+            <returns>A packet instance with payload of type T</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketBuilder.Build``1(System.Byte[])">
+            <summary>
+            Deserializes the bytes to a valid packet 
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketBuilder.Build(System.Byte[],System.String)">
+            <summary>
+            Builds a Packet with the correct generic so that the data is parsed correctly.  You could then use
+            this to display field data for example using the get properties method of the packet
+            </summary>
+            <param name="packetData"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.PacketBuilderProxy">
+            <summary>
+            Proxy classs for building packets using logging services.
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketBuilderProxy.#ctor(Symtech.G5.Protocol.V2.IBinaryDataLogService)">
+            <summary>
+            Default constructor.  Sets logging to supplied loggerService and uses default <see cref="T:Symtech.G5.Protocol.V2.PacketBuilder"/>
+            </summary>
+            <param name="loggerService">Logging service to use when building packet</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketBuilderProxy.#ctor(Symtech.G5.Protocol.V2.IBinaryDataLogService,Symtech.G5.Protocol.V2.PacketBuilder)">
+            <summary>
+            Uses supplied logging and packetbuilder to construct packets
+            </summary>
+            <param name="loggerService">Logging service to use when building packet</param>
+            <param name="packetBuilder">Builder used to build packet</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketBuilderProxy.Build``1(System.String,System.Byte[])">
+            <summary>
+            Builds a packet from the data array provided.  On successfull parsing of the packet the logging service
+            will be called to enable automatic handling of the new packet created
+            <para>
+            If there is a problem parsing the packet the packet is logged and associated against an UnknownRequest
+            </para>
+            </summary>
+            <typeparam name="T">Type of data payload being constructed</typeparam>
+            <param name="uid">Unique identifying of the owner of this packet</param>
+            <param name="data">Packet data</param>
+            <exception cref="T:Symtech.G5.Protocol.DataParseException">Thrown if there is a problem parsing the pcket</exception>
+            <returns>The deserialized packet</returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.PacketConstants">
+            <summary>
+            Constants used by the protocol
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.PacketConstants.Stx">
+            <summary>
+            Indicates the start of a new packet
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.PacketConstants.Etx">
+            <summary>
+            Indicates the end of a packet
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.PacketConstants.Yes">
+            <summary>
+            Byte value representing true, or conceptually Yes
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.PacketConstants.No">
+            <summary>
+            Byte value representing false, or conceptually No
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.PacketConstants.MinimumPacketLength">
+            <summary>
+            Number of characters a packet should always at the very least have
+            </summary>
+        </member>
+        <member name="F:Symtech.G5.Protocol.V2.PacketConstants.Null">
+            <summary>
+            Null character
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.DataPayloadPropertyWriter">
+            <summary>
+            This class will write out all properties of a data payload where each property is decorated
+            with a Fieldattribute to indicate the type of the field and how it should be written as well
+            as the order that field should be written in
+            </summary>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.PacketCommandTypeService">
+            <summary>
+            Provides access to obtaining information about the command types for DataPayloads without the need
+            to decorate each payload created with a <see cref="T:Symtech.G5.Protocol.V2.PacketCommandTypeAttribute"/>.  Hence if a new payload comes in from a different package you can
+            register the command for that payload by using the RegisterType() method.  This class can also be used
+            to obtain a command that a payload represents if the correct configuration (attribute decoration) has
+            been specified.
+            
+            <para>
+            Namespacing => A packet could belong to 
+            </para>
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.PacketCommandTypeService.NullCommand">
+            <summary>
+            Gets and sets the null value used by this service.  If no value is used <see cref="F:Symtech.G5.Protocol.V2.PacketConstants.Null"/> is used
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.PacketCommandTypeService.KnownCount">
+            <summary>
+            The current amount of payload types identified by this service
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.#ctor">
+            <summary>
+            Constructs a service with a default <see cref="T:Symtech.G5.Protocol.V2.PacketBuilder"/>
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.#ctor(Symtech.G5.Protocol.V2.PacketBuilder)">
+            <summary>
+            Creates a service with the supplied packetbuilder object
+            </summary>
+            <param name="packetBuilder"></param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.CurrentNamespace(System.String)">
+            <summary>
+            Sets the current namespace the service is working in
+            </summary>
+            <param name="nameSpace">Namespace currently working in</param>
+            <returns>The current instance</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.RegisterType(System.Char,System.Type,System.String)">
+            <summary>
+            Registers the command for this namespace if it is not already known so it can be used to find
+            </summary>
+            <param name="command">Command to register with</param>
+            <param name="payloadType">Payload type to register command with</param>
+            <param name="limitToNamespace">Namespace to limit registration to or leave empty if not required</param>
+            <returns></returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.IsAlreadyKnown(System.Char,System.String)">
+            <summary>
+            Determines if the packet service already knows about the provided command for the namespace provided
+            </summary>
+            <param name="command">Command type to lookup</param>
+            <param name="limitToNameSpace">Namespace to limit the search in</param>
+            <returns></returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.GetCommand(Symtech.G5.Protocol.V2.DataPayload,System.String)">
+            <summary>
+            Determines what the command will be for this payload if one has been configured either by
+            decorating the class itself or via the RegisterType() method.
+            
+            <para>
+            If a value is registered via the RegisterType() method this will supercede any attribute decortation
+            </para>
+            </summary>
+            <param name="payload"></param>
+            <param name="limitToNameSpace">Namespace to limit finding of command to</param>
+            <returns></returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.GetCommand``1">
+            <summary>
+            Identifies the command registered in the loaded assemblies for the DataPayload of type T.
+            </summary>
+            <typeparam name="T">Type of data payload to find a command for</typeparam>
+            <returns>The associated command if it is registered or the payload decorated otherwise null</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.GetCommand(System.Type)">
+            <summary>
+            Identifies the command character for the supplied payload type.  
+            </summary>
+            <param name="payloadType">Payload type to find command for.  Must be of type DataPayload</param>
+            <returns>The registered command or NullCommand if none</returns>
+            <exception cref="T:System.ArgumentException">If payloadType is not of type DataPayload</exception>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.GetCommand(System.Byte[])">
+            <summary>
+            Returns the command from the supplied byte array.  There must be at least the STX and ETX and Header payload data in the array
+            </summary>
+            <param name="data">Data to pull command from</param>
+            <returns>The command as a character from the data otherwise null if the data contains less than 2 bytes</returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.GetPayloadType(System.Byte[])">
+            <summary>
+            Attempts to retrieve the payload type for this set of byte data with the current known namespace
+            </summary>
+            <param name="packetData">Packet data to obtain payload type from</param>
+            <returns>The payload type if found otherwise <see cref="T:Symtech.G5.Protocol.V2.Payloads.UnknownRequest"/></returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.GetPayloadType(System.Byte[],System.String)">
+            <summary>
+            Attempts to retrieve the payload type for this set of byte data with supplied namespace
+            </summary>
+            <param name="packetData">Packet data to obtain payload type from</param>
+            <param name="limitToNamespaces">The namespaces to restrict the finding of the payload in</param>
+            <returns>The payload type if found otherwise <see cref="T:Symtech.G5.Protocol.V2.Payloads.UnknownRequest"/></returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.GetPayloadType(System.Byte[],System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a type based off the command associated with the packet data at index 2.  The command is found
+            by looking in our internal cached but if not found it attempts to find it in the current assemblies loaded
+            based on the PacketCommandTypeAttribute decoration
+            </summary>
+            <param name="packetData">packet data to find datapayload for</param>
+            <param name="limitToNamespaces">Namespace to limit the search within</param>
+            <returns></returns>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.PacketCommandTypeService.GetNamespace(System.String)">
+            <summary>
+            We try to find a match in the namespace provided, otherwise we use the default namespace
+            </summary>
+            <param name="nameSpace"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.Payloads.UnknownRequest">
+            <summary>
+            An empty payload handler so that we can create a IPacket for
+            any payload without caring about the data itself.
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.Payloads.UnknownRequest.Write(Symtech.G5.Protocol.V2.IDataOutputStream)">
+            <summary>
+            An empty method that does nothing
+            </summary>
+            <param name="outputStream">Is not used</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.Payloads.UnknownRequest.Read(Symtech.G5.Protocol.V2.IDataInputStream)">
+            <summary>
+            An empty method that does nothing to allow for reading any
+            type of payload
+            </summary>
+            <param name="inputStream">Is not used</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.Payloads.VariablePayload">
+            <summary>
+            Provides the ability to read any payload and then provide the
+            data to the user as a property byte[]  
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.Payloads.VariablePayload.Contents">
+            <summary>
+            The payload data that is to be serialized or has been deserialized
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.Payloads.VariablePayload.Read(Symtech.G5.Protocol.V2.IDataInputStream)">
+            <summary>
+            Reads all data available from the inputstream using the inputStream EndOfStream()
+            method to determine when reading stops
+            </summary>
+            <param name="inputStream"></param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.Payloads.VariablePayload.Write(Symtech.G5.Protocol.V2.IDataOutputStream)">
+            <summary>
+            Writes all the Contents[] to the outputstream
+            </summary>
+            <param name="outputStream">Stream to write intput</param>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.Payloads.VariablePayload.PropertiesToString(System.Int32)">
+            <summary>
+            Serializes the Contents property as a HexString
+            </summary>
+            <param name="version">Not used as there is only one version of this payload</param>
+            <returns>Key value pair of Contents</returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.VariablePacket`1">
+            <summary>
+            Provides the ability to read variable size payloads so that we can read payloads that the system
+            does not know anything about.
+            </summary>
+            <typeparam name="T">Payload type being read</typeparam>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.VariablePacket`1.Read(Symtech.G5.Protocol.V2.IDataInputStream)">
+            <summary>
+            Reads all bytes from the inputStream into a temporary byte[] which it can then be used to
+            parse into the header and Data payloads.
+            <para>
+            This allows the DataPayload to read as much data as it wishes as all the bytes available after the
+            header has been read, except the final bytes which is reserved for the ETX and checksum
+            </para>
+            </summary>
+            <param name="inputStream">Stream to read the packet bytes from</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.VersionAttribute">
+            <summary>
+            Decorates a property with the protocol versions that the property relates to for use when serializing
+            properties to streams
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.VersionAttribute.MinVersion">
+            <summary>
+            The minimum version the property can be associated with (inclusive)
+            </summary>
+        </member>
+        <member name="P:Symtech.G5.Protocol.V2.VersionAttribute.MaxVersion">
+            <summary>
+            The maximum version the property can be associated with (inclusive).  int.MaxValue if not set
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.VersionAttribute.WithinVersions(System.Int32)">
+            <summary>
+            Determines if the version supplied is within the range of the current Min and MaxVersions (inclusive)
+            </summary>
+            <param name="version">Version to verify range on</param>
+            <returns>True if in range otherwise false</returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IPacketWriter">
+            <summary>
+            Specifies writing of packet data to an outputstream in the format required
+            of the protocol specification
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IPacketWriter.Write(Symtech.G5.Protocol.V2.IDataOutputStream)">
+            <summary>
+            Writes the necessary field data to the supplied outputstream 
+            </summary>
+            <param name="outputStream">Outputstream to write the data to</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IVersionPacketWriter">
+            <summary>
+            Specifies writing of packet data for a specific version of a protocol.
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IVersionPacketWriter.Write(Symtech.G5.Protocol.V2.IDataOutputStream,System.Int32)">
+            <summary>
+            Writes the necessary fields as determined by the version number to the
+            supplied outputStream
+            </summary>
+            <param name="outputStream">Stream to write fields to</param>
+            <param name="version">Version number that specifies what fields to write</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IPacketCheckSumWriter">
+            <summary>
+            Specifies writing of packet to an outputstream with a custom checksum algorithm if
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IPacketCheckSumWriter.Write(Symtech.G5.Protocol.V2.IDataOutputStream,Symtech.G5.Protocol.V2.IChecksum)">
+            <summary>
+            Writes the data to the supplied outputstream and performs a checksum calculation on the 
+            data that is to be sent. 
+            </summary>
+            <param name="outputStream">The stream to write the packet data to</param>
+            <param name="checksumAlgorithm">The algorithm used to create a checksum</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IPacketReader">
+            <summary>
+            Specifies a protocol packet data reader from the transport stream
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IPacketReader.Read(Symtech.G5.Protocol.V2.IDataInputStream)">
+            <summary>
+            Reads the necessary data from the supplied inputStream
+            </summary>
+            <param name="inputStream">Inputstream to read from</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IVersionPacketReader">
+            <summary>
+            Specifies a protocl packet data reader taking into account version handling
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IVersionPacketReader.Read(Symtech.G5.Protocol.V2.IDataInputStream,System.Int32)">
+            <summary>
+            Reads the data from the provided inputstream based on the version number supplied
+            </summary>
+            <param name="inputStream">Stream to read from</param>
+            <param name="version">The version indicating the format the data is supplied in</param>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IVersionPropertySerializable">
+            <summary>
+            Specifieds a versioned serializable class that will serialize the properties that it is
+            responsible for to a key value pair
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IVersionPropertySerializable.PropertiesToString(System.Int32)">
+            <summary>
+            Uses the version to determine which data is to be serialized as a key value pair
+            with the key being the name of the property and the value being the property value.
+            </summary>
+            <param name="version">Specifies which data properties are to be supplied</param>
+            <returns>Key values pairs representing the property name and value</returns>
+        </member>
+        <member name="T:Symtech.G5.Protocol.V2.IPropertySerializable">
+            <summary>
+            Specifies a serializable contract for viewing key value pairs
+            </summary>
+        </member>
+        <member name="M:Symtech.G5.Protocol.V2.IPropertySerializable.PropertiesToString">
+            <summary>
+            Serializes the properties necessary to a key value pair
+            </summary>
+            <returns>?Key value pairs representing the property name and value</returns>
+        </member>
+    </members>
+</doc>
