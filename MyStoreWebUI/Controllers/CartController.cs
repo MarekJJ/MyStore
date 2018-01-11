@@ -1,56 +1,54 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using MyStoreDomain.Abstract;
-using MyStoreDomain.Entities;
+using MyStoreDomain.Entities;//dfsaf
 using MyStoreWebUI.Models;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace MyStoreWebUI.Controllers
 {
     public class CartController : Controller
     {
         public IitemsRepository repository;
-        public IOrderProcessor orderProcessor; 
-        public CartController(IitemsRepository repo, IOrderProcessor proc)//ninject Associates parameters 
+        public IOrderProcessor orderProcessor;
+        public CartController(IitemsRepository repo, IOrderProcessor proc)//ninject Associates parameters
         {
             repository = repo;
             orderProcessor = proc;
         }
 
-        public ViewResult Checkout(Cart cart) // entity cart is in session 
+        public ViewResult Checkout(Cart cart) // entity cart is in session
         {
-           
+
             foreach (var p in repository.Myitems) // checking if client doesn't added more items than is available if more than reducing to available quantity
             {
-                foreach (var i in cart.Lines)                      
-                {                                                  
+                foreach (var i in cart.Lines)
+                {
                     if (p.NumberID == i.Product.NumberID)
                     {
                         int bd = int.Parse(p.amount);
 
-                        if (bd < i.Quantity) 
+                        if (bd < i.Quantity)
                         {
-                           i.Quantity = bd;  
-                         return View("Delete", p);
+                            i.Quantity = bd;
+                            return View("Delete", p);
                         }
                     }
                 }
             }
-           return View(new ShippingDetails());
+            return View(new ShippingDetails());
         }
 
-        [HttpPost]        
-        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails) 
+        [HttpPost]
+        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
         {
-            if (cart.Lines.Count() == 0) 
+            if (cart.Lines.Count() == 0)
             {
-                ModelState.AddModelError("", "Koszyk jest pusty!"); 
+                ModelState.AddModelError("", "Koszyk jest pusty!");
             }
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
-                orderProcessor.ProcessOrder(cart, shippingDetails); 
-               
+                orderProcessor.ProcessOrder(cart, shippingDetails);
+
                 return View("Completed");
             }
             else
@@ -59,25 +57,25 @@ namespace MyStoreWebUI.Controllers
             }
         }
 
-        public PartialViewResult Summary(Cart cart ) 
+        public PartialViewResult Summary(Cart cart)
         {
             return PartialView(cart);
         }
 
         public ViewResult Index(Cart cart, string returnUrl) //returnUrl this is URL from view
         {
-            return View(new CartIndexViewModel{ReturnUrl = returnUrl,Cart = cart});
+            return View(new CartIndexViewModel { ReturnUrl = returnUrl, Cart = cart });
         }
 
 
-        public RedirectToRouteResult AddToCart(Cart cart , int productId, string returnUrl)
+        public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl)
         {
             MyItem product = repository.Myitems.FirstOrDefault(p => p.NumberID == productId);
             if (product != null)
             {
                 cart.AddItem(product, 1);
             }
-            
+
             return RedirectToAction("Index", new { returnUrl });
         }
 
