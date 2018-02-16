@@ -5,7 +5,7 @@ using MyStoreDomain.Abstract;
 using MyStoreDomain.Entities;
 
 namespace MyStoreWebUI.Controllers
-{
+{//lallalla
     [Authorize]
     public class AdminController : Controller
     {
